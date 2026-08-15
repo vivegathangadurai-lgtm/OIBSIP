@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vivega — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0B0F17;
+      --bg-card: #131A26;
+      --bg-card-hover: #1A2333;
+      --accent: #3B82F6;
+      --accent-glow: rgba(59, 130, 246, 0.25);
+      --accent-cyan: #06B6D4;
+      --text-main: #F1F5F9;
+      --text-muted: #94A3B8;
+      --border: #1E293B;
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .container { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      background: rgba(11, 15, 23, 0.85);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 24px;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .brand { font-weight: 800; font-size: 20px; letter-spacing: -0.02em; }
+    .brand span { color: var(--accent); }
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav-links a { color: var(--text-muted); font-size: 14.5px; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text-main); }
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600 !important;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.9; }
+
+    /* Hero */
+    .hero { padding: 100px 0 80px; }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 999px;
+      color: var(--accent-cyan);
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 24px;
+    }
+    .hero-tag .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-cyan); }
+    .hero h1 {
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+    }
+    .hero h1 .gradient {
+      background: linear-gradient(135deg, #60A5FA 0%, #06B6D4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 580px;
+      margin-bottom: 36px;
+    }
+    .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 15px;
+      display: inline-block;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 4px 14px var(--accent-glow); }
+    .btn-primary:hover { transform: translateY(-2px); }
+    .btn-secondary { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main); }
+    .btn-secondary:hover { background: var(--bg-card-hover); }
+
+    /* Sections Shared */
+    section { padding: 80px 0; border-top: 1px solid var(--border); }
+    .section-title { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; }
+    .section-desc { color: var(--text-muted); font-size: 16px; margin-bottom: 48px; max-width: 540px; }
+
+    /* Skills Grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 16px;
+    }
+    .skill-chip {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 14px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .skill-chip:hover { border-color: var(--accent); transform: translateY(-3px); }
+
+    /* Projects */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .project-card:hover { transform: translateY(-4px); border-color: rgba(59, 130, 246, 0.4); }
+    .project-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+    .project-card p { font-size: 14.5px; color: var(--text-muted); margin-bottom: 20px; }
+    .project-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px 10px;
+      border-radius: 4px;
+      color: #CBD5E1;
+    }
+    .project-links { display: flex; gap: 14px; }
+    .project-links a { font-size: 14px; font-weight: 600; color: var(--accent-cyan); }
+
+    /* Contact */
+    .contact-wrapper {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 12px 16px;
+      border-radius: 8px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 14px;
+    }
+    .form-group input:focus, .form-group textarea:focus { outline: 2px solid var(--accent); }
+
+    /* Footer */
+    footer { padding: 40px 0; text-align: center; color: var(--text-muted); font-size: 14px; border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="#home" class="brand">Vivega<span>.dev</span></a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact" class="nav-cta">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="hero" id="home" style="border-top:none;">
+      <div class="hero-tag">
+        <span class="dot"></span> Open to new opportunities
+      </div>
+      <h1>Building scalable, modern web experiences with <span class="gradient">clean code.</span></h1>
+      <p>Computer Engineering student focused on building robust front-end interfaces, intuitive user workflows, and practical full-stack projects.</p>
+      <div class="hero-buttons">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+      </div>
+    </section>
+
+    <section id="skills">
+      <h2 class="section-title">Technical Toolkit</h2>
+      <p class="section-desc">Languages, tools, and workflows I use to bring ideas to life.</p>
+      <div class="skills-grid">
+        <div class="skill-chip">HTML5 / Semantic UI</div>
+        <div class="skill-chip">CSS3 / Grid & Flexbox</div>
+        <div class="skill-chip">JavaScript (ES6+)</div>
+        <div class="skill-chip">Git & GitHub</div>
+        <div class="skill-chip">MySQL</div>
+        <div class="skill-chip">Responsive Design</div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2 class="section-title">Featured Projects</h2>
+      <p class="section-desc">Selected builds focusing on performance, clean structure, and usability.</p>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div>
+            <h3>Kaarigar Landing Page</h3>
+            <p>A verification-first trade network landing page featuring custom CSS job ticket components and complete mobile responsiveness.</p>
+            <div class="project-tags">
+              <span class="tag">HTML5</span>
+              <span class="tag">CSS Grid</span>
+              <span class="tag">JavaScript</span>
+            </div>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/vivegathangadurai-lgtm/OIBSIP/tree/main/WebDev-L1-LandingPage" target="_blank">Source Code &rarr;</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div>
+            <h3>Zapcart Web App</h3>
+            <p>A dynamic web application built for product catalog management, item cart workflows, and streamlined checkout interfaces.</p>
+            <div class="project-tags">
+              <span class="tag">JavaScript</span>
+              <span class="tag">Web Dev</span>
+              <span class="tag">UI/UX</span>
+            </div>
+          </div>
+          <div class="project-links">
+            <a href="#" target="_blank">Demo &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 class="section-title" style="text-align:center;">Let's Connect</h2>
+      <p class="section-desc" style="text-align:center; margin: 0 auto 36px;">Feel free to reach out for collaborations or project discussions.</p>
+      <div class="contact-wrapper">
+        <form onsubmit="event.preventDefault(); alert('Message sent!');">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" placeholder="Your Name" required>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="name@example.com" required>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea rows="4" placeholder="Your message here..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;">Send Message</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 Vivega. Built for Oasis Infobyte Internship.</p>
+  </footer>
+
+</body>
+</html>
