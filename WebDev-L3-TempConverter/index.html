@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ThermoShift — Temperature Converter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0A0E17;
+      --card: #121824;
+      --card-border: #1F293D;
+      --accent: #F97316;
+      --accent-glow: rgba(249, 115, 22, 0.25);
+      --text: #F8FAFC;
+      --text-muted: #94A3B8;
+      --input-bg: #0F1522;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .converter-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 40px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(249, 115, 22, 0.12);
+      border: 1px solid rgba(249, 115, 22, 0.25);
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    input, select {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--accent);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .btn-convert {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 14px var(--accent-glow);
+    }
+
+    .btn-convert:hover {
+      transform: translateY(-2px);
+    }
+
+    .result-box {
+      margin-top: 28px;
+      padding: 20px;
+      background: var(--input-bg);
+      border: 1px dashed var(--card-border);
+      border-radius: 8px;
+      display: none;
+    }
+
+    .result-box.show {
+      display: block;
+    }
+
+    .result-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .result-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-top: 4px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .formula-note {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="converter-card">
+    <div class="badge">Level 1 — Task 3</div>
+    <h1>ThermoShift</h1>
+    <p class="subtitle">Convert temperatures instantly across standard scales.</p>
+
+    <div class="form-group">
+      <label for="tempInput">Degrees to Convert</label>
+      <input type="number" id="tempInput" placeholder="Enter value (e.g. 100)" step="any" required>
+    </div>
+
+    <div class="grid-2">
+      <div class="form-group">
+        <label for="fromUnit">From</label>
+        <select id="fromUnit">
+          <option value="C">Celsius (°C)</option>
+          <option value="F">Fahrenheit (°F)</option>
+          <option value="K">Kelvin (K)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="toUnit">To</label>
+        <select id="toUnit">
+          <option value="F">Fahrenheit (°F)</option>
+          <option value="C">Celsius (°C)</option>
+          <option value="K">Kelvin (K)</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn-convert" onclick="convertTemperature()">Convert Temperature</button>
+
+    <div class="result-box" id="resultBox">
+      <div class="result-label">Converted Output</div>
+      <div class="result-value" id="resultValue">--</div>
+      <div class="formula-note" id="formulaNote">--</div>
+    </div>
+  </div>
+
+  <script>
+    function convertTemperature() {
+      const input = document.getElementById('tempInput').value;
+      const from = document.getElementById('fromUnit').value;
+      const to = document.getElementById('toUnit').value;
+      const resultBox = document.getElementById('resultBox');
+      const resultValue = document.getElementById('resultValue');
+      const formulaNote = document.getElementById('formulaNote');
+
+      if (input === '' || isNaN(input)) {
+        alert('Please enter a valid numeric temperature.');
+        return;
+      }
+
+      const val = parseFloat(input);
+      let res = 0;
+      let formula = '';
+
+      if (from === to) {
+        res = val;
+        formula = 'Identical units selected.';
+      } else if (from === 'C' && to === 'F') {
+        res = (val * 9/5) + 32;
+        formula = `(${val}°C × 9/5) + 32`;
+      } else if (from === 'C' && to === 'K') {
+        res = val + 273.15;
+        formula = `${val}°C + 273.15`;
+      } else if (from === 'F' && to === 'C') {
+        res = (val - 32) * 5/9;
+        formula = `(${val}°F − 32) × 5/9`;
+      } else if (from === 'F' && to === 'K') {
+        res = ((val - 32) * 5/9) + 273.15;
+        formula = `((${val}°F − 32) × 5/9) + 273.15`;
+      } else if (from === 'K' && to === 'C') {
+        res = val - 273.15;
+        formula = `${val}K − 273.15`;
+      } else if (from === 'K' && to === 'F') {
+        res = ((val - 273.15) * 9/5) + 32;
+        formula = `((${val}K − 273.15) × 9/5) + 32`;
+      }
+
+      const symbols = { C: '°C', F: '°F', K: 'K' };
+      resultValue.textContent = `${res.toFixed(2)} ${symbols[to]}`;
+      formulaNote.textContent = `Formula: ${formula}`;
+      resultBox.classList.add('show');
+    }
+  </script>
+</body>
+</html>
